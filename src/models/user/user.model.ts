@@ -7,6 +7,7 @@ export interface IUser {
   email: string;
   password: string;
   timestamp: Date;
+  matchPassword: Function;
 }
 
 const userSchema = new Schema<IUser>(

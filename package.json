@@ -15,9 +15,9 @@
     "typescript": "~5.1.6"
   },
   "scripts": {
-    "start": "node build/src/server/index.js",
-    "server": "nodemon build/src/server/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon build/src/server/index.js\"",
+    "start": "node build/src/index.js",
+    "server": "nodemon build/src/index.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon build/src/index.js\"",
     "lint": "gts lint",
     "clean": "gts clean",
     "compile": "tsc",
