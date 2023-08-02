@@ -8,8 +8,13 @@ import {
   updateJob,
   deleteJob,
 } from '../../controllers/job/job.controller';
+import {protect} from '../../middleware/auth.middleware';
 
-router.route('/').post(createJob).get(getJobs);
-router.route('/:id').get(getJob).put(updateJob).delete(deleteJob);
+router.route('/').post(protect, createJob).get(getJobs);
+router
+  .route('/:id')
+  .get(getJob)
+  .put(protect, updateJob)
+  .delete(protect, deleteJob);
 
 export default router;

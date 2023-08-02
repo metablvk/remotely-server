@@ -6,6 +6,7 @@ interface IJob {
   payType: string;
   payRate: string;
   jobDesc: string;
+  createdBy?: Types.ObjectId;
 }
 
 const jobSchema = new Schema<IJob>({
@@ -25,6 +26,7 @@ const jobSchema = new Schema<IJob>({
     type: String,
     required: true,
   },
+  createdBy: {type: mongoose.Types.ObjectId, ref: 'User', required: true},
 });
 
 const Job = mongoose.model('Job', jobSchema);
