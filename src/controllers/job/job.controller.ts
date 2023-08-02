@@ -7,21 +7,18 @@ import Job from '../../models/job/job.model';
 // route POST /api/job
 // @access private
 const createJob = asyncHandler(async (req: Request, res: Response) => {
-  const {title, payType, payRate, jobDesc} = req.body;
+  const {title, payType, payRate, desc} = req.body;
   const user = await User.findById(req.user._id);
   if (user) {
     const job = await Job.create({
       title,
       payType,
       payRate,
-      jobDesc,
+      desc,
       createdBy: user._id,
     });
     if (job) {
-      res.status(201).json({
-        _id: job._id,
-        title: job.title,
-      });
+      res.status(201).json(job);
     } else {
       res.status(400);
       throw new Error('Invalid job data');
@@ -38,7 +35,7 @@ const createJob = asyncHandler(async (req: Request, res: Response) => {
 const getJob = asyncHandler(async (req: Request, res: Response) => {
   const job = await Job.findById(req.params.id);
   if (job) {
-    res.send(job);
+    res.json(job);
   } else {
     res.status(404);
     throw new Error('Job not found');
@@ -49,7 +46,10 @@ const getJob = asyncHandler(async (req: Request, res: Response) => {
 // route GET /api/job/
 // @access PUBLIC
 const getJobs = asyncHandler(async (req: Request, res: Response) => {
-  const jobs = await Job.find({}).populate({path: 'createdBy', select: '_id'});
+  const jobs = await Job.find({}).populate({
+    path: 'createdBy',
+    select: ['_id', 'name'],
+  });
   if (jobs) {
     res.send(jobs);
   } else {
@@ -69,15 +69,18 @@ const updateJob = asyncHandler(async (req: Request, res: Response) => {
   });
 
   if (job && user && job.createdBy && job.createdBy.equals(user._id)) {
-    const {title, payType, payRate, jobDesc} = req.body;
+    const {title, payType, payRate, desc} = req.body;
     job.title = title;
     job.payType = payType;
     job.payRate = payRate;
-    job.jobDesc = jobDesc;
+    job.desc = desc;
     const updatedJob = await job.save();
     res.status(200).json({
       _id: updatedJob._id,
       title: updatedJob.title,
+      payType: updatedJob.payType,
+      payRate: updatedJob.payRate,
+      desc: updatedJob.desc,
     });
   } else {
     res.status(403);

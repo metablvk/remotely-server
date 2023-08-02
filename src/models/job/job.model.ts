@@ -5,7 +5,7 @@ interface IJob {
   title: string;
   payType: string;
   payRate: string;
-  jobDesc: string;
+  desc: string;
   createdBy?: Types.ObjectId;
 }
 
@@ -22,7 +22,7 @@ const jobSchema = new Schema<IJob>({
     type: String,
     required: true,
   },
-  jobDesc: {
+  desc: {
     type: String,
     required: true,
   },
