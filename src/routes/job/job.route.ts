@@ -7,6 +7,7 @@ import {
   getJobs,
   updateJob,
   deleteJob,
+  getJobsByUserId,
 } from '../../controllers/job/job.controller';
 import {protect} from '../../middleware/auth.middleware';
 
@@ -16,5 +17,7 @@ router
   .get(getJob)
   .put(protect, updateJob)
   .delete(protect, deleteJob);
+
+router.route('/users/:uid').get(getJobsByUserId);
 
 export default router;

@@ -58,6 +58,11 @@ const getJobs = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
+const getJobsByUserId = asyncHandler(async (req: Request, res: Response) => {
+  const jobs = await Job.find({createdBy: req.params.uid});
+  res.send(jobs);
+});
+
 // @desc Update job
 // route PUT /api/job/:id
 // @access PRIVATE
@@ -81,6 +86,7 @@ const updateJob = asyncHandler(async (req: Request, res: Response) => {
       payType: updatedJob.payType,
       payRate: updatedJob.payRate,
       desc: updatedJob.desc,
+      createdBy: job.createdBy?._id,
     });
   } else {
     res.status(403);
@@ -106,4 +112,4 @@ const deleteJob = asyncHandler(async (req: Request, res: Response) => {
   }
 });
 
-export {createJob, getJob, getJobs, updateJob, deleteJob};
+export {createJob, getJob, getJobs, updateJob, deleteJob, getJobsByUserId};
